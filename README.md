@@ -6,20 +6,23 @@
 
 ```
 ├── CLAUDE/
-│   ├── CLAUDE.md              三阶段工作流、八荣八耻
-│   ├── agents/                智能体定义
-│   └── profiles/              用户能力档案
+│   ├── CLAUDE.md                           三阶段工作流、八荣八耻
+│   ├── agents/                             智能体定义
+│   │   ├── api-docs-extractor.md           API文档提取器（子代理版）
+│   │   └── api-docs-extractor-simplified-cn.md  API文档提取器（通用版）
+│   └── profiles/                           用户能力档案
 ├── 代码规则/
 │   ├── LLM优先编码原则.md
 │   ├── 代码审查规则.md
 │   └── 代码编写规则.md
 ├── 分支规则/
-│   └── debug-log.md           Debug 日志规范
+│   └── debug-log.md                        Debug 日志规范
 ├── 文档规则/
 │   ├── AI编程文档规范.md
 │   └── 代码对齐文档规则.md
 └── tools/
-    └── api-crawl-prompt.md    API 文档爬取任务模板
+    ├── api-crawl-prompt.md                 API 文档爬取任务模板（Ocean Engine专用）
+    └── api-crawl-prompt-general.md         API 文档爬取任务模板（通用版）
 ```
 
 ## 核心内容
@@ -40,6 +43,16 @@
 
 ### 分支规则
 - **debug-log.md**：Debug 日志规范
+
+### API文档提取工具
+- **api-docs-extractor-simplified-cn.md**：通用API文档提取器规范
+  - 支持有/无分类两种模式
+  - 三层验证机制确保准确性
+  - 适用于任何API文档提取场景
+- **api-crawl-prompt-general.md**：通用API文档爬取任务模板
+  - 可直接复制使用的提示词模板
+  - 支持灵活的目录结构和命名规则
+  - 包含多种使用场景示例
 
 ### AI编程文档规范（7大原则）
 1. 信息密度优先
