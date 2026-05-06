@@ -167,6 +167,24 @@ skill 与用户当前要求冲突时，优先遵守用户当前要求；但**任
 
 ## 4. Skills 使用规则
 
+### 4.0 技能来源仓库
+
+当前规则默认会使用以下技能来源：
+
+| 来源 | 用途 | 代表技能 |
+| ---- | ---- | -------- |
+| `obra/superpowers` / Superpowers | 默认工程执行底座，负责需求澄清、计划、TDD、调试、验证、代码审查等通用工程纪律 | `using-superpowers`、`brainstorming`、`writing-plans`、`executing-plans`、`test-driven-development`、`systematic-debugging`、`verification-before-completion`、`requesting-code-review` |
+| `mattpocock/skills` | 精选补充能力，负责产品 / 设计 / 测试视角的需求拷问、陌生模块理解、PRD 草稿和任务拆分 | `grill-me`、`zoom-out`、`to-prd`、`to-issues`、`grill-with-docs` |
+| Cursor 官方 / Cursor 本地技能 | Cursor IDE 专属能力，如规则创建、设置修改、Canvas、SDK、PR 拆分等 | `create-rule`、`update-cursor-settings`、`canvas`、`sdk`、`split-to-prs` |
+
+约束：
+
+- `obra/superpowers` 是默认工程流程来源；代码实现、bug 修复、TDD、调试和完成前验证优先使用它。
+- `mattpocock/skills` 只启用 4.4 中列出的精选补充技能；不全量启用，不替代 Superpowers。
+- Cursor 官方 / 本地技能仅在任务明确相关时使用，不作为通用流程默认入口。
+- 其它第三方或本机安装技能不在本规则中逐一列出；如任务明确相关，按 4.1 的读取与遵守原则处理。
+- 如技能来源、安装路径或可用技能列表发生变化，以当前会话实际可读取的 skill 文件为准。
+
 ### 4.1 基本原则
 
 - **非简单问答任务执行前主动检查可用 skills**
@@ -189,6 +207,11 @@ skill 与用户当前要求冲突时，优先遵守用户当前要求；但**任
 | 交接总结 | `dev-handoff-summarizer` |
 | 创建 Cursor 规则 | `create-rule` |
 | 创建或修改 skill | `create-skill` / `writing-skills` |
+| 产品定义、设计方向、测试策略、用户场景、MVP 范围、验收标准拷问 | `grill-me` |
+| 陌生模块、复杂调用链、跨前后端流程的系统地图理解 | `zoom-out` |
+| 将已讨论内容整理为 PRD 草稿 | `to-prd` |
+| 将 PRD / 计划拆成可执行任务草案 | `to-issues` |
+| 领域语言、上下文、ADR 的正式文档沉淀 | `grill-with-docs` |
 
 ### 4.3 使用声明
 
@@ -197,6 +220,69 @@ skill 与用户当前要求冲突时，优先遵守用户当前要求；但**任
 - 正在使用哪个 skill
 - 用它解决当前任务的哪一部分
 - 哪些 skill 要求因用户限制或项目规则不会执行
+
+### 4.4 精选补充技能集成规则
+
+#### 总原则
+
+- Superpowers 仍是默认工程执行底座，负责代码实现、TDD、调试、计划执行、代码审查和完成前验证。
+- mattpocock/skills 只作为精选补充能力使用，不替代 Superpowers 的工程纪律。
+- 已启用的补充技能仅限：`grill-me`、`zoom-out`、`to-prd`、`to-issues`、`grill-with-docs`。
+- 不调用 mattpocock/skills 中与现有能力重复的 `tdd`、`diagnose`、`caveman`、`write-a-skill`，除非用户明确点名。
+- 使用任何技能前，必须遵守当前用户要求、1.3 权限边界、2.1 项目阶段规则和 6.3 完成前验证规则。
+
+#### `grill-me`
+
+- 用于产品定义、设计方向、测试策略、用户场景、MVP 范围、验收标准不清楚时。
+- 用户说「grill me」「拷问一下」「帮我把需求问清楚」「帮我挑战这个方案」时优先使用。
+- 一次只问一个关键问题，并给出推荐答案。
+- 如果问题能通过查代码或文档回答，先查代码或文档，再向用户确认剩余决策。
+- 不用于明确的小代码修改、已复现 bug 修复或纯执行任务。
+
+#### `zoom-out`
+
+- 用于进入陌生模块、复杂调用链、跨前后端流程、历史代码区域前建立系统地图。
+- 输出应聚焦相关模块、调用者、数据流、业务词汇和可验证入口。
+- 默认只读，不修改文件。
+- 不替代实现方案；看清上下文后仍按项目通用三阶段或快速通道执行。
+
+#### `to-prd`
+
+- 仅在用户明确要求「生成 PRD」「把当前讨论整理成 PRD」「输出产品需求文档」时使用。
+- 默认只生成 PRD 草稿，不创建 issue、不发布到外部系统。
+- 发布到 GitHub / GitLab / 本地 issue tracker 必须得到用户明确二次确认。
+- 生成 PRD 前应基于已有对话和必要代码 / 文档探索，不重新拷问用户；如关键信息缺失，应先列出缺口。
+- PRD 不包含具体代码片段，避免快速过期。
+
+#### `to-issues`
+
+- 仅在用户明确要求「拆任务」「拆 issue」「把 PRD / 计划拆成可执行票据」时使用。
+- 默认只输出拆分草案，不创建 issue、不打标签、不修改父 issue。
+- 发布 issue、应用标签或写入 issue tracker 必须得到用户明确二次确认。
+- 拆分应优先使用可独立验证的纵向切片，而不是按前端 / 后端 / 数据库做横向切片。
+- 每个切片应说明依赖关系、验收标准和是否需要人工决策。
+
+#### `grill-with-docs`
+
+- 仅在用户明确要求「沉淀文档」「更新上下文」「记录 ADR」「对齐领域语言」时使用。
+- 不作为普通需求澄清的默认技能；普通澄清优先 `grill-me`。
+- 更新 `CONTEXT.md` 或 ADR 前必须说明将写入哪些内容，并得到用户明确确认。
+- 只有当决策难以逆转、没有上下文会令人意外、且确实存在取舍时，才建议 ADR。
+- 不把临时讨论、未确认想法或实现细节沉淀为正式领域知识。
+
+#### 发布与写入限制
+
+- 任何创建 issue、发布 PRD、写入 issue tracker、打标签、修改 `CONTEXT.md`、创建 ADR 的动作，都必须先得到用户明确确认。
+- 默认输出草稿和建议，不主动执行外部状态变更。
+- 不运行 `setup-matt-pocock-skills`，除非用户明确要求配置 issue tracker、标签词汇和领域文档布局。
+- 若确需配置，应先展示配置草案，用户确认后再写入 `AGENTS.md`、`CLAUDE.md` 或 `docs/agents/*`。
+
+#### 禁止默认行为
+
+- 不因安装了补充技能而延长每个小任务的流程。
+- 不在代码实现、bug 修复、TDD、调试、验证任务中调用重复技能。
+- 不自动创建 PRD、issue、标签、`CONTEXT.md` 或 ADR。
+- 不把需求澄清变成无止境提问；能从代码确认的先查代码，不能确认的再问用户。
 
 ---
 
