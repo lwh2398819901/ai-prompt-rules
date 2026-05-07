@@ -30,13 +30,39 @@
 
 ### 添加技能
 
-如果使用支持 Agent Skills 的工具，可以通过 `npx skills add` 安装本仓库中的项目内技能：
+`agent.md` 第 4 章会路由到三类技能来源：**本仓库 `skills/`**、**`obra/superpowers`**、**`mattpocock/skills` 精选子集**；在 Cursor 下还可能用到 **Cursor 官方 / 本地技能**。下面按来源说明典型安装方式（具体 CLI 选项以你本机 `npx skills` 版本的帮助为准）。
+
+#### 1. 本仓库项目内技能（`skills/`）
 
 ```bash
-npx skills add lwh2398819901/ai-prompt-rules
+npx skills@latest add lwh2398819901/ai-prompt-rules
 ```
 
-该方式主要安装 `skills/` 下的专项技能。`agent.md` 是完整规则源，是否配置为全局规则、项目规则或会话上下文，由使用者根据所用工具自行决定。
+主要安装本仓库 `skills/` 下的中文专项技能（与「项目内技能」表格一致）。
+
+#### 2. `agent.md` 默认工程底座：`obra/superpowers`（推荐）
+
+```bash
+npx skills@latest add obra/superpowers
+```
+
+对应 `agent.md` 4.0 表中「Superpowers」所列流程技能（如 `using-superpowers`、`brainstorming`、`writing-plans`、`test-driven-development`、`systematic-debugging` 等）。未安装时规则仍可用，但需按通用流程手动执行等价步骤。
+
+#### 3. `agent.md` 精选补充：`mattpocock/skills`（按需）
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+安装器会让你选择要装到哪些 agent 上。**请只勾选**与 `agent.md` 4.4 一致的五个技能：`grill-me`、`zoom-out`、`to-prd`、`to-issues`、`grill-with-docs`，**不要默认全量安装**整仓。上游 README 会提到 `setup-matt-pocock-skills`：按本仓库规则，**除非你要配置 issue tracker / 标签词汇 / 文档布局并已与使用者确认**，否则不必运行该 setup（见 `agent.md` 4.4）。
+
+#### 4. Cursor 官方 / Cursor 本地技能
+
+在 Cursor 中通过 **Settings → Agents / Skills**（或当前版本等效入口）添加官方与市场技能；本机 `~/.cursor/skills-cursor/` 等路径下的本地技能由 Cursor 管理。`agent.md` 中列名的 `create-rule`、`canvas`、`sdk` 等即属此类，**是否安装由你的 Cursor 环境决定**，不是 Git 仓库 CLI 的必选步骤。
+
+---
+
+**共同说明**：`agent.md` 是完整规则源，请照旧载入为项目规则、用户规则或会话上下文；上述命令只解决「技能包」安装到 agent 的问题。任何环境若无法使用 `npx skills`，可将对应仓库 skills 目录**手动复制**到你所用工具的 skill 扫描路径，并核对 skill 名称与 `agent.md` 第 4 章一致。
 
 ## 适用工具
 
@@ -86,6 +112,27 @@ npx skills add lwh2398819901/ai-prompt-rules
 | `obra/superpowers` | 推荐安装 | 提供默认工程流程技能，如需求澄清、计划、TDD、调试、验证、代码审查 |
 | `mattpocock/skills` | 选择性安装 | 只建议安装 `grill-me`、`zoom-out`、`to-prd`、`to-issues`、`grill-with-docs` |
 | Cursor 官方 / Cursor 本地技能 | 按工具环境决定 | Cursor 专属能力，如创建规则、Canvas、设置修改、SDK 指南等 |
+
+### 上游仓库与浏览索引
+
+便于对照版本、阅读说明或确认技能清单时，可直接打开下列地址（与 `agent.md` 4.0 一致；**不等同于**「凡是相关都要装」）：
+
+| 资源 | 说明 |
+| ---- | ---- |
+| [github.com/obra/superpowers](https://github.com/obra/superpowers) | Superpowers 源码、内置 `skills/` 目录与各 skill 的 `SKILL.md` |
+| [github.com/mattpocock/skills](https://github.com/mattpocock/skills) | mattpocock 技能集源码；目录结构以该仓库为准 |
+| [skills.sh](https://skills.sh/) | 第三方技能包索引与展示（可按仓库检索；安装命令仍以 `npx skills@latest add <owner>/<repo>` 等 CLI 说明为准） |
+| 本仓库发布页 | 若你在 GitHub 上 fork 或镜像本规则仓库，项目内技能的发布名可能与 README 中 `npx skills add …` 一致；以你实际托管的 `owner/repo` 为准 |
+
+### 其它已发布为 Agent Skill 包的仓库（自选）
+
+许多团队或社区也会把流程写成符合 Agent Skills 约定的 GitHub 仓库。只要该仓库支持 `skills` 生态的常见安装方式，一般可尝试：
+
+```bash
+npx skills@latest add <owner>/<repo>
+```
+
+**与 `agent.md` 的关系**：`agent.md` 第 4 章**只固定路由**本仓库 `skills/`、`obra/superpowers`、`mattpocock/skills`（精选子集）及 Cursor 技能四类来源。其它仓库安装后 **不会自动进入 4.2 路由表**；使用前需自行判断其流程是否与 `agent.md` 的权限边界、阶段规则、停止条件和完成前验证冲突。若某第三方 skill 要在团队内长期作为「默认入口」，应在 `agent.md` 第 4 章补充登记来源与硬边界，而不是仅在 README 中口头推荐。
 
 如果已安装对应技能：
 
