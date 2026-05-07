@@ -28,6 +28,16 @@
 
 将 `agent.md` 作为 AI 助手的规则源或系统提示词源使用。命中专项任务时，按 `agent.md` 第 4 章读取 `skills/` 下的对应 `SKILL.md`。
 
+### 添加技能
+
+如果使用支持 Agent Skills 的工具，可以通过 `npx skills add` 安装本仓库中的项目内技能：
+
+```bash
+npx skills add lwh2398819901/ai-prompt-rules
+```
+
+该方式主要安装 `skills/` 下的专项技能。`agent.md` 是完整规则源，是否配置为全局规则、项目规则或会话上下文，由使用者根据所用工具自行决定。
+
 ## 适用工具
 
 `agent.md` 是纯 Markdown 规则文件，适用于任何支持自定义规则、系统提示词、项目说明或 agent instructions 的 AI 编程工具。
